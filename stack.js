@@ -103,24 +103,56 @@ function is_palindrome(s) {
 // Return the position of incorrect or missing
 const parenCounter = expression => {
   let parenStack = new Stack();
-	let currentChar;
+  let curlyStack = new Stack();
+  let bracketStack = new Stack();
+  let currentChar;
 	
   for (let i = 0; i < expression.length; i++) {
     currentChar = expression[i];
     if (currentChar === '(') {
       parenStack.push(i);
     }
-    if(currentChar === ')') {
-      parenStack.pop();
+    if((currentChar === ')') && parenStack.top !== null) {
+        console.log('hi')
+        parenStack.pop();
     }
-  }
-	
+    if (currentChar === '{') {
+        curlyStack.push(i);
+    }
+    if (currentChar === '}' && curlyStack.top !== null) {
+        curlyStack.pop();
+    }
+    if (currentChar === '[') {
+        bracketStack.push(i)
+    }
+    if (currentChar === ']' && bracketStack.top !== null) {
+        bracketStack.pop()
+    }
+  }	
+
   while (parenStack.top !== null) {
-    console.log(peek(parenStack));
+    console.log('paren: ', peek(parenStack));
     parenStack.pop();
   }
 
-  // console.log('The stack!! : ', parenStack);
-};
+  while (curlyStack.top !== null) {
+    console.log('curly: ', peek(curlyStack));
+    curlyStack.pop();
+  }
 
-parenCounter('((((____))');
+  while (bracketStack.top !== null) {
+    console.log('bracket: ', peek(bracketStack));
+    bracketStack.pop();
+  }
+
+  // console.log('The stack!! : ', parenStack);
+
+}
+
+// parenCounter('((((____))');
+// parenCounter("[{'('}('')]")
+// parenCounter(")1 + 2) + 3");
+parenCounter("([({})])");
+
+
+
